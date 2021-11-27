@@ -15,12 +15,16 @@ import flixel.util.FlxColor;
 class AnimationDebug extends FlxState
 {
 	var bf:Boyfriend;
+	var bftrace:Boyfriend;
 	var dad:Character;
+	var dadtrace:Character;
 	var char:Character;
+	var chartrace:Character;
 	var textAnim:FlxText;
 	var dumbTexts:FlxTypedGroup<FlxText>;
 	var animList:Array<String> = [];
 	var curAnim:Int = 0;
+	var prevAnim:Int = 0;
 	var isDad:Bool = true;
 	var daAnim:String = 'spooky';
 	var camFollow:FlxObject;
@@ -42,30 +46,40 @@ class AnimationDebug extends FlxState
 		if (daAnim == 'bf')
 			isDad = false;
 
-
 		if (isDad)
 		{
+			dadtrace = new Character(0, 0, daAnim);
+			dadtrace.alpha = 0.3;
+			dadtrace.screenCenter();
+			dadtrace.debugMode = true;
+			add(dadtrace);
 			dad = new Character(0, 0, daAnim);
 			dad.screenCenter();
 			dad.debugMode = true;
 			add(dad);
 
 			char = dad;
+			chartrace = dadtrace;
 			dad.flipX = false;
+			dadtrace.flipX = false;
 		}
 		else
 		{
+			bftrace = new Boyfriend(0, 0);
+			bftrace.alpha = 0.3;
+			bftrace.screenCenter();
+			bftrace.debugMode = true;
+			add(bftrace);
 			bf = new Boyfriend(0, 0);
 			bf.screenCenter();
 			bf.debugMode = true;
 			add(bf);
 
 			char = bf;
+			chartrace = bftrace;
 			bf.flipX = false;
+			bftrace.flipX = false;
 		}
-
-		if (daAnim == 'sunky')
-			char.setGraphicSize(Std.int(char.width * 0.2));
 
 		dumbTexts = new FlxTypedGroup<FlxText>();
 		add(dumbTexts);
@@ -145,11 +159,17 @@ class AnimationDebug extends FlxState
 
 		if (FlxG.keys.justPressed.W)
 		{
+			prevAnim = curAnim;
+			chartrace.animOffsets.get(animList[prevAnim])[1] = char.animOffsets.get(animList[curAnim])[1];
+			chartrace.animOffsets.get(animList[prevAnim])[0] = char.animOffsets.get(animList[curAnim])[0];
 			curAnim -= 1;
 		}
 
 		if (FlxG.keys.justPressed.S)
 		{
+			prevAnim = curAnim;
+			chartrace.animOffsets.get(animList[prevAnim])[1] = char.animOffsets.get(animList[curAnim])[1];
+			chartrace.animOffsets.get(animList[prevAnim])[0] = char.animOffsets.get(animList[curAnim])[0];
 			curAnim += 1;
 		}
 
@@ -162,6 +182,7 @@ class AnimationDebug extends FlxState
 		if (FlxG.keys.justPressed.S || FlxG.keys.justPressed.W || FlxG.keys.justPressed.SPACE)
 		{
 			char.playAnim(animList[curAnim]);
+			chartrace.playAnim(animList[prevAnim]);
 
 			updateTexts();
 			genBoyOffsets(false);

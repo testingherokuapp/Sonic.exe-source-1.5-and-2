@@ -22,15 +22,19 @@ using StringTools;
 
 class Caching extends MusicBeatState
 {
+    
+
     var toBeDone = 0;
     var done = 0;
 
     var text:FlxText;
     var kadeLogo:FlxSprite;
-    var bg:FlxSprite;
 
 	override function create()
 	{
+        FlxG.sound.changeVolume(5);
+        FlxG.sound.muted = false;
+
         FlxG.mouse.visible = false;
 
         FlxG.worldBounds.set(0,0);
@@ -39,8 +43,6 @@ class Caching extends MusicBeatState
         text.size = 34;
         text.alignment = FlxTextAlign.CENTER;
         text.alpha = 0;
-
-        bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.fromRGB(61,0,1));
 
         kadeLogo = new FlxSprite(FlxG.width / 2, FlxG.height / 2).loadGraphic(Paths.image('KadeEngineLogo'));
         kadeLogo.x -= kadeLogo.width / 2;
@@ -51,7 +53,6 @@ class Caching extends MusicBeatState
 
         kadeLogo.alpha = 0;
 
-        add(bg);
         add(kadeLogo);
         add(text);
 
@@ -88,6 +89,7 @@ class Caching extends MusicBeatState
         var images = [];
         var music = [];
         var exeimages = [];
+        var anims = [];
 
 
         trace("caching images...");
@@ -148,9 +150,6 @@ class Caching extends MusicBeatState
 
         trace("Finished caching...");
 
-        FlxG.sound.muted = false;
-
-        FlxG.sound.changeVolume(10);
 
         FlxG.switchState(new TitleState()); //IF YOU TRYNA GET THE PRELOADING OR CACHING AT THE START
         //GO TO MAIN.HX AND CHANGE THE INITIAL STATE VARIABLE TO CACHING.HX

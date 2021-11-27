@@ -1,5 +1,8 @@
 package;
 
+import flixel.FlxCamera;
+import cpp.abi.Abi;
+import flixel.util.FlxTimer;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -17,20 +20,30 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
 
+using StringTools;
+
 class OptionsMenu extends MusicBeatState
 {
 	public static var instance:OptionsMenu;
 
 	var selector:FlxText;
 	var curSelected:Int = 0;
+	var cheat:Bool = false;
+	var canselect:Bool = true;
+
 
 	var options:Array<OptionCategory> = [
 		new OptionCategory("Sonic exe", [
-			new JumpscareOption("Toggle the usage of jumpscares (this lowers lag by alot)")
+			new JumpscareOption("Displays jumpscares in some songs (this affects the gameplay preformance by alot)"),
+			new Vfx("Enables special visual effects (turning it off helps with memory and preformace)"),
+			new SplashOption("Enables splattering blood on SICK! hits."),
+			new CamMove("Makes the camera move to the notes you or your opponent presses."),
+			new LowQuality('Removes parts of the stage in order to achieve smoother gameplay.')
 		]),
 		new OptionCategory("Gameplay", [
 			new DFJKOption(controls),
 			new DownscrollOption("Change the layout of the strumline."),
+			new MiddlescrollOption("Sets the strumline to the middle of the screen and hides the opponent's."),
 			new GhostTapOption("Ghost Tapping is when you tap a direction and it doesn't give you a miss."),
 			new Judgement("Customize your Hit Timings (LEFT or RIGHT)"),
 			#if desktop
@@ -62,8 +75,11 @@ class OptionsMenu extends MusicBeatState
 			new FlashingLightsOption("Toggle flashing lights that can cause epileptic seizures and strain."),
 			new WatermarkOption("Enable and disable all watermarks from the engine."),
 			new ShowInput("Display every single input in the score screen."),
-			new Optimization("No backgrounds, no characters, centered notes, no player 2."),
+			//new Optimization("No backgrounds, no characters, centered notes, no player 2.")
 			new BotPlay("Showcase your charts and mods with autoplay."),
+			#if
+			new RealBot('The coolest botplay')
+			#end
 		])
 		
 	];
@@ -151,25 +167,27 @@ class OptionsMenu extends MusicBeatState
 			}
 
 			var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-
-			if (gamepad != null)
+			if (canselect)
 			{
-				if (gamepad.justPressed.DPAD_UP)
+				if (gamepad != null)
 				{
-					FlxG.sound.play(Paths.sound('scrollMenu'));
+					if (gamepad.justPressed.DPAD_UP)
+					{
+						FlxG.sound.play(Paths.sound('scrollMenu'));
+						changeSelection(-1);
+					}
+					if (gamepad.justPressed.DPAD_DOWN)
+					{
+						FlxG.sound.play(Paths.sound('scrollMenu'));
+						changeSelection(1);
+					}
+				}
+				
+				if (FlxG.keys.justPressed.UP)
 					changeSelection(-1);
-				}
-				if (gamepad.justPressed.DPAD_DOWN)
-				{
-					FlxG.sound.play(Paths.sound('scrollMenu'));
+				if (FlxG.keys.justPressed.DOWN)
 					changeSelection(1);
-				}
 			}
-			
-			if (FlxG.keys.justPressed.UP)
-				changeSelection(-1);
-			if (FlxG.keys.justPressed.DOWN)
-				changeSelection(1);
 			
 			if (isCat)
 			{
@@ -232,13 +250,33 @@ class OptionsMenu extends MusicBeatState
 			if (controls.RESET)
 					FlxG.save.data.offset = 0;
 
-			if (controls.ACCEPT)
+			if (controls.ACCEPT && canselect)
 			{
 				if (isCat)
 				{
 					if (currentSelectedCat.getOptions()[curSelected].press()) {
 						grpControls.members[curSelected].reType(currentSelectedCat.getOptions()[curSelected].getDisplay());
 						trace(currentSelectedCat.getOptions()[curSelected].getDisplay());
+						if (currentSelectedCat.getOptions()[curSelected].getDisplay().startsWith('BotPlay'))
+						{
+							var camera:FlxCamera;
+							camera = new FlxCamera();
+							FlxG.cameras.add(camera);
+							canselect = false;
+							FlxG.sound.music.stop();
+							var nocheat:FlxSprite = new FlxSprite().loadGraphic(Paths.image('nocheating', 'exe'));
+							nocheat.alpha = 0;
+							nocheat.cameras = [camera];
+							add(nocheat);
+							new FlxTimer().start(2, function(ok:FlxTimer)
+							{
+								FlxTween.tween(nocheat, {alpha:1}, 1, {onComplete: function(ok:FlxTween)
+								{
+									cheat = true;
+									FlxG.save.data.fakebotplay = false;
+								}});
+							});
+						}
 					}
 				}
 				else
@@ -258,6 +296,11 @@ class OptionsMenu extends MusicBeatState
 				}
 				
 				changeSelection();
+			}
+			else if (!canselect && cheat && controls.ACCEPT)
+			{
+				FlxG.sound.music.play();
+				FlxG.switchState(new OptionsMenu());
 			}
 		}
 		FlxG.save.flush();

@@ -1,5 +1,7 @@
 package;
 
+import flixel.FlxSprite;
+import lime.utils.Assets;
 import lime.app.Application;
 import lime.system.DisplayMode;
 import flixel.util.FlxColor;
@@ -72,6 +74,86 @@ class Option
 	public function right():Bool { return throw "stub!"; }
 }
 
+class LowQuality extends Option
+{
+	public function new(desc:String)
+		{
+			super();
+			description = desc;
+		}
+		public override function press():Bool
+		{
+			FlxG.save.data.lq = !FlxG.save.data.lq;
+			display = updateDisplay();
+			return true;
+		}
+	
+		private override function updateDisplay():String
+		{
+			return "Low Quality " + (!FlxG.save.data.lq ? "off" : "on");
+		}
+}
+
+class Vfx extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+	public override function press():Bool
+	{
+		FlxG.save.data.vfx = !FlxG.save.data.vfx;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Visual Effects " + (!FlxG.save.data.vfx ? "off" : "on");
+	}
+}
+
+class CamMove extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+	public override function press():Bool
+	{
+		FlxG.save.data.cammove = !FlxG.save.data.cammove;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Camera Movement " + (!FlxG.save.data.cammove ? "off" : "on");
+	}
+}
+
+class SplashOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+	public override function press():Bool
+	{
+		FlxG.save.data.splashing = !FlxG.save.data.splashing;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Note splashes " + (!FlxG.save.data.splashing ? "off" : "on");
+	}
+}
+
 class JumpscareOption extends Option
 {
 	public function new(desc:String)
@@ -91,6 +173,7 @@ class JumpscareOption extends Option
 		return "Jumpscares " + (!FlxG.save.data.jumpscares ? "off" : "on");
 	}
 }
+
 
 class DFJKOption extends Option
 {
@@ -155,6 +238,27 @@ class DownscrollOption extends Option
 	private override function updateDisplay():String
 	{
 		return FlxG.save.data.downscroll ? "Downscroll" : "Upscroll";
+	}
+}
+
+class MiddlescrollOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.midscroll = !FlxG.save.data.midscroll;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return 'Middle Scroll ' + (FlxG.save.data.midscroll ? "on" : "off");
 	}
 }
 
@@ -687,14 +791,33 @@ class BotPlay extends Option
 	
 	public override function press():Bool
 	{
-		FlxG.save.data.botplay = !FlxG.save.data.botplay;
-		trace('BotPlay : ' + FlxG.save.data.botplay);
+		FlxG.save.data.fakebotplay = !FlxG.save.data.fakebotplay;
+		trace('BotPlay : ' + FlxG.save.data.fakebotplay);
 		display = updateDisplay();
 		return true;
 	}
 	
 	private override function updateDisplay():String
-		return "BotPlay " + (FlxG.save.data.botplay ? "on" : "off");
+		return "BotPlay " + (FlxG.save.data.fakebotplay ? "on" : "off");
+}
+class RealBot extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+	
+	public override function press():Bool
+	{
+		FlxG.save.data.botplay = !FlxG.save.data.botplay;
+		trace('Real BotPlay : ' + FlxG.save.data.botplay);
+		display = updateDisplay();
+		return true;
+	}
+	
+	private override function updateDisplay():String
+		return "Real BotPlay " + (FlxG.save.data.botplay ? "on" : "off");
 }
 
 class CamZoomOption extends Option

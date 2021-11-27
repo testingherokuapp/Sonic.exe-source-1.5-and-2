@@ -42,14 +42,23 @@
 	<SubTexture name="sound test white0002" x="761" y="214" width="380" height="214"/>
 	<SubTexture name="sound test white0003" x="761" y="214" width="380" height="214"/>
 	<SubTexture name="sound test white0004" x="761" y="214" width="380" height="214"/>
-	<SubTexture name="story mode basic0000" x="1141" y="214" width="381" height="214"/>
-	<SubTexture name="story mode basic0001" x="1141" y="214" width="381" height="214"/>
-	<SubTexture name="story mode basic0002" x="1141" y="214" width="381" height="214"/>
-	<SubTexture name="story mode basic0003" x="1141" y="214" width="381" height="214"/>
-	<SubTexture name="story mode basic0004" x="1141" y="214" width="381" height="214"/>
-	<SubTexture name="story mode white0000" x="1522" y="214" width="380" height="214"/>
-	<SubTexture name="story mode white0001" x="1522" y="214" width="380" height="214"/>
-	<SubTexture name="story mode white0002" x="1522" y="214" width="380" height="214"/>
-	<SubTexture name="story mode white0003" x="1522" y="214" width="380" height="214"/>
-	<SubTexture name="story mode white0004" x="1522" y="214" width="380" height="214"/>
+	<SubTexture name="sound test locked basic0000" x="1141" y="214" width="384" height="219"/>
+	<SubTexture name="sound test locked basic0001" x="1141" y="214" width="384" height="219"/>
+	<SubTexture name="sound test locked basic0002" x="1141" y="214" width="384" height="219"/>
+	<SubTexture name="sound test locked basic0003" x="1141" y="214" width="384" height="219"/>
+	<SubTexture name="sound test locked basic0004" x="1141" y="214" width="384" height="219"/>
+	<SubTexture name="sound test locked white0000" x="761" y="214" width="380" height="214"/>
+	<SubTexture name="sound test locked white0001" x="761" y="214" width="380" height="214"/>
+	<SubTexture name="sound test locked white0002" x="761" y="214" width="380" height="214"/>
+	<SubTexture name="sound test locked white0003" x="761" y="214" width="380" height="214"/>
+	<SubTexture name="story mode basic0000" x="1525" y="214" width="381" height="214"/>
+	<SubTexture name="story mode basic0001" x="1525" y="214" width="381" height="214"/>
+	<SubTexture name="story mode basic0002" x="1525" y="214" width="381" height="214"/>
+	<SubTexture name="story mode basic0003" x="1525" y="214" width="381" height="214"/>
+	<SubTexture name="story mode basic0004" x="1525" y="214" width="381" height="214"/>
+	<SubTexture name="story mode white0000" x="0" y="433" width="380" height="214"/>
+	<SubTexture name="story mode white0001" x="0" y="433" width="380" height="214"/>
+	<SubTexture name="story mode white0002" x="0" y="433" width="380" height="214"/>
+	<SubTexture name="story mode white0003" x="0" y="433" width="380" height="214"/>
+	<SubTexture name="story mode white0004" x="0" y="433" width="380" height="214"/>
 </TextureAtlas>

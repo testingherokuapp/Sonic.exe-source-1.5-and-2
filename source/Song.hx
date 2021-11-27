@@ -21,6 +21,7 @@ typedef SwagSong =
 	var noteStyle:String;
 	var stage:String;
 	var validScore:Bool;
+	var isRing:Bool;
 }
 
 class Song

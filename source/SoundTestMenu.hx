@@ -14,6 +14,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
 
+
 #if windows
 import Discord.DiscordClient;
 #end
@@ -46,6 +47,7 @@ class SoundTestMenu extends MusicBeatState
 
     override function create()
         {
+			DiscordClient.changePresence('In the Sound Test Menu', null);
 
 			new FlxTimer().start(0.1, function(tmr:FlxTimer)
 				{
@@ -164,6 +166,7 @@ class SoundTestMenu extends MusicBeatState
 			woahmanstopspammin = false;
 			PlayStateChangeables.nocheese = false;
 			PlayState.SONG = Song.loadFromJson('endless-hard', 'endless');
+			PlayState.isFreeplay = false;
 			PlayState.isStoryMode = false;
 			PlayState.storyDifficulty = 2;
 			PlayState.storyWeek = 1;
@@ -174,12 +177,88 @@ class SoundTestMenu extends MusicBeatState
 			{
 				LoadingState.loadAndSwitchState(new PlayState());
 			});
+			if (!FlxG.save.data.songArray.contains('endless') && !FlxG.save.data.botplay) FlxG.save.data.songArray.push('endless');
 		}
 		else if (first == 7 && second == 7)
 			{
 				woahmanstopspammin = false;
 				PlayStateChangeables.nocheese = false;
-				PlayState.SONG = Song.loadFromJson('execution-hard', 'execution');
+				PlayState.isFreeplay = false;
+				PlayState.SONG = Song.loadFromJson('cycles-hard', 'cycles');
+				PlayState.isStoryMode = false;
+				PlayState.storyDifficulty = 2;
+				PlayState.storyWeek = 1;
+				FlxTransitionableState.skipNextTransIn = true;
+				FlxTransitionableState.skipNextTransOut = true;
+				flashyWashy(true);
+				new FlxTimer().start(2, function(tmr:FlxTimer)
+				{
+					LoadingState.loadAndSwitchState(new PlayState());
+				});
+				if (!FlxG.save.data.songArray.contains('cycles') && !FlxG.save.data.botplay) FlxG.save.data.songArray.push('cycles');
+			}
+		else if (first == 31 && second == 13)
+			{
+				woahmanstopspammin = false;
+				PlayStateChangeables.nocheese = false;
+				PlayState.isFreeplay = false;
+				PlayState.storyPlaylist = ['faker', 'black-sun'];
+				PlayState.SONG = Song.loadFromJson('faker-hard', 'faker');
+				PlayState.isStoryMode = false;
+				PlayState.isList = true;
+				PlayState.storyDifficulty = 2;
+				PlayState.storyWeek = 1;
+				FlxTransitionableState.skipNextTransIn = true;
+				FlxTransitionableState.skipNextTransOut = true;
+				flashyWashy(true);
+				new FlxTimer().start(2, function(tmr:FlxTimer)
+				{
+					LoadingState.loadAndSwitchState(new PlayState());
+				});
+				if (!FlxG.save.data.songArray.contains('faker') && !FlxG.save.data.botplay) FlxG.save.data.songArray.push('faker');
+			}
+		else if (first == 66 && second == 6)
+			{
+				woahmanstopspammin = false;
+				PlayStateChangeables.nocheese = false;
+				PlayState.isFreeplay = false;
+				PlayState.SONG = Song.loadFromJson('sunshine', 'sunshine');
+				PlayState.isStoryMode = false;
+				PlayState.storyDifficulty = 2;
+				PlayState.storyWeek = 1;
+				FlxTransitionableState.skipNextTransIn = true;
+				FlxTransitionableState.skipNextTransOut = true;
+				flashyWashy(true);
+				if (!FlxG.save.data.songArray.contains('sunshine') && !FlxG.save.data.botplay) FlxG.save.data.songArray.push('sunshine');
+				new FlxTimer().start(2, function(tmr:FlxTimer)
+				{
+					LoadingState.loadAndSwitchState(new PlayState());
+				});
+			}
+		else if (first == 8 && second == 21)
+			{
+				woahmanstopspammin = false;
+				PlayStateChangeables.nocheese = false;
+				PlayState.isFreeplay = false;
+				PlayState.SONG = Song.loadFromJson('chaos-hard', 'chaos');
+				PlayState.isStoryMode = false;
+				PlayState.storyDifficulty = 2;
+				PlayState.storyWeek = 1;
+				FlxTransitionableState.skipNextTransIn = true;
+				FlxTransitionableState.skipNextTransOut = true;
+				flashyWashy(true);
+				new FlxTimer().start(2, function(tmr:FlxTimer)
+				{
+					LoadingState.loadAndSwitchState(new PlayState());
+				});
+				if (!FlxG.save.data.songArray.contains('chaos') && !FlxG.save.data.botplay) FlxG.save.data.songArray.push('chaos');
+			}
+		else if (first == 0 && second == 0)
+			{
+				woahmanstopspammin = false;
+				PlayStateChangeables.nocheese = false;
+				PlayState.isFreeplay = false;
+				PlayState.SONG = Song.loadFromJson('too-fest-hard', 'too-fest');
 				PlayState.isStoryMode = false;
 				PlayState.storyDifficulty = 2;
 				PlayState.storyWeek = 1;
@@ -191,50 +270,6 @@ class SoundTestMenu extends MusicBeatState
 					LoadingState.loadAndSwitchState(new PlayState());
 				});
 			}
-		else if (first == 3 && second == 1) 
-		{
-			woahmanstopspammin = false;
-			flashyWashy(true);
-			new FlxTimer().start(2, function(tmr:FlxTimer)
-			{
-				cameoImg.visible = true;
-				cameoImg.loadGraphic(Paths.image('cameostuff/Rightburst'));
-				flashyWashy(false);
-				FlxG.sound.music.stop();
-
-			});
-			new FlxTimer().start(2.1, function(tmr:FlxTimer)
-			{
-				FlxG.sound.playMusic(Paths.music('cameostuff/Rightburst'));	
-				incameo = true;
-			});
-		}
-		else if (first == 12 && second == 11)
-		{
-			woahmanstopspammin = false;
-			flashyWashy(true);
-			new FlxTimer().start(2, function(tmr:FlxTimer)
-			{
-				cameoBg.visible = true;
-				cameoBg.frames = Paths.getSparrowAtlas('cameostuff/VaniaBG');
-				FlxG.log.add(cameoBg.visible); 
-				cameoBg.animation.addByPrefix('wave', 'VaniaBG', 24, true);				
-				cameoImg.visible = true;
-				cameoBg.x -= 200;
-				cameoBg.y -= 100;
-				cameoImg.loadGraphic(Paths.image('cameostuff/Vania'));
-				cameoImg.x += 270;
-				cameoImg.y -= 50;
-				flashyWashy(false);
-				FlxG.sound.music.stop();
-			});
-			new FlxTimer().start(2.1, function(tmr:FlxTimer)
-			{
-				cameoBg.animation.play('wave');
-				FlxG.sound.playMusic(Paths.music('cameostuff/Vania'));	
-				incameo = true;
-			});
-		}
 		else if (first == 41 && second == 1) 
 		{
 			woahmanstopspammin = false;
@@ -254,75 +289,94 @@ class SoundTestMenu extends MusicBeatState
 				incameo = true;
 			});
 		}
-		else if (first == 69 && second == 27) 
-		{
-			woahmanstopspammin = false;
-			flashyWashy(true);
-			new FlxTimer().start(2, function(tmr:FlxTimer)
-			{
-				cameoImg.visible = true;
-				cameoImg.loadGraphic(Paths.image('cameostuff/Zekuta'));
-				cameoImg.setSize(1280, 720);
-				flashyWashy(false);
-				FlxG.sound.music.stop();
-
-			});
-			new FlxTimer().start(2.1, function(tmr:FlxTimer)
-			{
-				FlxG.sound.playMusic(Paths.music('cameostuff/Zekuta'));	
-				incameo = true;
-			});
-		}
-		else if (first == 6 && second == 9) 
+		else if (first == 1 && second == 13) // This for you div, R.I.P
 			{
 				woahmanstopspammin = false;
 				flashyWashy(true);
 				new FlxTimer().start(2, function(tmr:FlxTimer)
 				{
 					cameoImg.visible = true;
-					cameoBg.visible = true;
-					cameoThanks.visible = true;
-					cameoThanks.loadGraphic(Paths.image('cameostuff/thanks'));
-					cameoThanks.setSize(1280, 720);
-					cameoImg.frames = Paths.getSparrowAtlas('cameostuff/Comgaming');
-					cameoImg.animation.addByPrefix('bounce', 'Comgaming instance 1', 20, true);	
-					cameoBg.frames = Paths.getSparrowAtlas('cameostuff/BGCOMLOL');
-					cameoBg.animation.addByPrefix('move', 'BGCOM', 19, true);
-					cameoImg.y += 5;
+					cameoImg.loadGraphic(Paths.image('cameostuff/divide'));
 					cameoImg.setSize(1280, 720);
-					cameoBg.setSize(1280, 720);
 					flashyWashy(false);
 					FlxG.sound.music.stop();
 	
 				});
 				new FlxTimer().start(2.1, function(tmr:FlxTimer)
 				{
-					cameoImg.animation.play('bounce');
-					cameoBg.animation.play('move');
-
-					FlxG.sound.playMusic(Paths.music('cameostuff/Comgaming'));	
 					incameo = true;
 				});
 			}
-		else if (first == 11 && second == 9) 
-		{
-			woahmanstopspammin = false;
-			flashyWashy(true);
-			new FlxTimer().start(2, function(tmr:FlxTimer)
+		else if (first == 9 && second == 10) // This for you div, R.I.P
 			{
-				cameoImg.visible = true;
-				cameoImg.loadGraphic(Paths.image('cameostuff/Crybit'));
-				cameoImg.setSize(1280, 720);
-				flashyWashy(false);
-				FlxG.sound.music.stop();
-
-			});
-			new FlxTimer().start(2.1, function(tmr:FlxTimer)
+				woahmanstopspammin = false;
+				flashyWashy(true);
+				new FlxTimer().start(2, function(tmr:FlxTimer)
+				{
+					cameoImg.visible = true;
+					cameoImg.loadGraphic(Paths.image('cameostuff/Sunkeh'));
+					cameoImg.setSize(1280, 720);
+					flashyWashy(false);
+					FlxG.sound.music.stop();
+	
+				});
+				new FlxTimer().start(2.1, function(tmr:FlxTimer)
+				{
+					incameo = true;
+				});
+			}
+		else if (first == 6 && second == 6) // This for you div, R.I.P
 			{
-				FlxG.sound.playMusic(Paths.music('cameostuff/Crybit'));	
-				incameo = true;
-			});
-		}
+				woahmanstopspammin = false;
+				flashyWashy(true);
+				new FlxTimer().start(2, function(tmr:FlxTimer)
+				{
+					cameoImg.visible = true;
+					cameoImg.loadGraphic(Paths.image('cameostuff/GamerX'));
+					cameoImg.setSize(1280, 720);
+					flashyWashy(false);
+					FlxG.sound.music.stop();
+	
+				});
+				new FlxTimer().start(2.1, function(tmr:FlxTimer)
+				{
+					incameo = true;
+				});
+			}
+		else if (first == 23 && second == 23) 
+			{
+				var video:MP4Handler = new MP4Handler();
+				woahmanstopspammin = false;
+				flashyWashy(true);
+				new FlxTimer().start(2, function(tmr:FlxTimer)
+				{
+					flashyWashy(false);
+					FlxG.sound.music.stop();
+	
+				});
+				new FlxTimer().start(2.1, function(tmr:FlxTimer)
+				{
+                	video.playMP4(Paths.video('Keel'));
+					incameo = true;
+				});
+			}
+		else if (first == 12 && second == 34) 
+			{
+				var video:MP4Handler = new MP4Handler();
+				woahmanstopspammin = false;
+				flashyWashy(true);
+				new FlxTimer().start(2, function(tmr:FlxTimer)
+				{
+					flashyWashy(false);
+					FlxG.sound.music.stop();
+	
+				});
+				new FlxTimer().start(2.1, function(tmr:FlxTimer)
+				{
+                	video.playMP4(Paths.video('Milky'));
+					incameo = true;
+				});
+			}
 		else if (first == 32 && second == 8) 
 		{
 			woahmanstopspammin = false;

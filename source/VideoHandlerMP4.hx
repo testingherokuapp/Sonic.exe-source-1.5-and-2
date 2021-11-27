@@ -174,4 +174,5 @@ class VideoHandlerMP4
 		else
 			LoadingState.loadAndSwitchState(new MainMenuState());
 	}
+
 }

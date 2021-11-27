@@ -29,6 +29,9 @@ class Note extends FlxSprite
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
 	public var noteType:Int = 0;
+	public var noteSinger:Int;
+
+	public var isRing:Bool = PlayState.SONG.isRing;
 
 	public var noteScore:Float = 1;
 
@@ -41,15 +44,21 @@ class Note extends FlxSprite
 	public var rating:String = "shit";
 
 	// 2. added skin note parameter
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?noteType:Int = 0)
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?noteType:Int = 0, ?noteSinger:Int)
 		{
 			super();
- 
+			
 			if (prevNote == null)
 				prevNote = this;
 			this.noteType = noteType;
 			this.prevNote = prevNote;
+			this.noteSinger = noteSinger;
 			isSustainNote = sustainNote;
+
+			if (isRing)
+			{
+				swagWidth = 140 * 0.8;
+			}
  
 			x += 50;
 			// MAKE SURE ITS DEFINITELY OFF SCREEN?
@@ -67,7 +76,7 @@ class Note extends FlxSprite
 			switch (PlayState.SONG.noteStyle)
 			{
 				case 'pixel':
-					loadGraphic(Paths.image('weeb/pixelUI/arrows-pixels','exe'), true, 17, 17);
+					loadGraphic(Paths.image('arrows-pixels','exe'), true, 17, 17);
  
 					if (noteType == 2)
 						{
@@ -86,7 +95,7 @@ class Note extends FlxSprite
  
 					if (isSustainNote)
 					{
-						loadGraphic(Paths.image('weeb/pixelUI/arrowEnds','exe'), true, 7, 6);
+						loadGraphic(Paths.image('arrowEnds','exe'), true, 7, 6);
  
 						animation.add('purpleholdend', [4]);
 						animation.add('greenholdend', [6]);
@@ -143,16 +152,19 @@ class Note extends FlxSprite
 								animation.addByPrefix('redScroll', 'red0');
 								animation.addByPrefix('blueScroll', 'blue0');
 								animation.addByPrefix('purpleScroll', 'purple0');
+	
  
 								animation.addByPrefix('purpleholdend', 'pruple end hold'); //PRUPLE Its not typo in the programming, but it is a typo in adobe animate hence why its in da xml like dat
 								animation.addByPrefix('greenholdend', 'green hold end');
 								animation.addByPrefix('redholdend', 'red hold end');
 								animation.addByPrefix('blueholdend', 'blue hold end');
+								
  
 								animation.addByPrefix('purplehold', 'purple hold piece');
 								animation.addByPrefix('greenhold', 'green hold piece');
 								animation.addByPrefix('redhold', 'red hold piece');
 								animation.addByPrefix('bluehold', 'blue hold piece');
+								
  
 								setGraphicSize(Std.int(width * 0.7));
 								updateHitbox();
@@ -171,6 +183,20 @@ class Note extends FlxSprite
  
 						switch(noteType)
 						{
+							case 3:
+							{
+								frames = Paths.getSparrowAtlas('PhantomNote');
+								animation.addByPrefix('greenScroll', 'green withered');
+								animation.addByPrefix('redScroll', 'red withered');
+								animation.addByPrefix('blueScroll', 'blue withered');
+								animation.addByPrefix('purpleScroll', 'purple withered');
+	
+								setGraphicSize(Std.int(width * 0.7));
+									
+								updateHitbox();
+								antialiasing = true;
+							}
+
 							case 2:
 							{
 								frames = Paths.getSparrowAtlas('staticNotes');
@@ -201,16 +227,19 @@ class Note extends FlxSprite
 								animation.addByPrefix('redScroll', 'red0');
 								animation.addByPrefix('blueScroll', 'blue0');
 								animation.addByPrefix('purpleScroll', 'purple0');
+								if (isRing) animation.addByPrefix('goldScroll', 'gold0');
  
 								animation.addByPrefix('purpleholdend', 'pruple end hold');
 								animation.addByPrefix('greenholdend', 'green hold end');
 								animation.addByPrefix('redholdend', 'red hold end');
 								animation.addByPrefix('blueholdend', 'blue hold end');
+								if (isRing) animation.addByPrefix('goldholdend', 'red hold end');
  
 								animation.addByPrefix('purplehold', 'purple hold piece');
 								animation.addByPrefix('greenhold', 'green hold piece');
 								animation.addByPrefix('redhold', 'red hold piece');
 								animation.addByPrefix('bluehold', 'blue hold piece');
+								if (isRing) animation.addByPrefix('goldhold', 'red hold piece');
  
 								setGraphicSize(Std.int(width * 0.7));
 								updateHitbox();
@@ -227,12 +256,35 @@ class Note extends FlxSprite
 			case 1:
 				x += swagWidth * 1;
 				animation.play('blueScroll');
-			case 2:
-				x += swagWidth * 2;
-				animation.play('greenScroll');
+			 case 2:
+				if (isRing)
+				{
+					x += swagWidth * 2;
+					animation.play('goldScroll');
+				}
+				else
+				{
+					x += swagWidth * 2;
+					animation.play('greenScroll');
+				}
 			case 3:
-				x += swagWidth * 3;
-				animation.play('redScroll');
+				if (isRing)
+				{
+					x += swagWidth * 3;
+					animation.play('greenScroll');
+				}
+				else
+				{
+					x += swagWidth * 3;
+					animation.play('redScroll');
+				}
+			case 4:
+				if(isRing)
+				{
+					x += swagWidth * 4;
+					animation.play('redScroll');
+				}
+				
 		}
 
 		// trace(prevNote);
@@ -250,16 +302,36 @@ class Note extends FlxSprite
 
 			x += width / 2;
 
-			switch (noteData)
+
+			if (!isRing)
 			{
-				case 2:
-					animation.play('greenholdend');
-				case 3:
-					animation.play('redholdend');
-				case 1:
-					animation.play('blueholdend');
-				case 0:
-					animation.play('purpleholdend');
+				switch (noteData)
+				{
+					case 3:
+						animation.play('redholdend');	
+					case 2:
+						animation.play('greenholdend');
+					case 1:
+						animation.play('blueholdend');
+					case 0:
+						animation.play('purpleholdend');
+				}
+			}
+			else
+			{
+				switch (noteData)
+				{
+					case 3:
+						animation.play('greenholdend');
+					case 4:
+						animation.play('redholdend');
+					case 2:
+						animation.play('goldholdend');
+					case 1:
+						animation.play('blueholdend');
+					case 0:
+						animation.play('purpleholdend');
+				}
 			}
 
 			updateHitbox();
@@ -271,16 +343,35 @@ class Note extends FlxSprite
 
 			if (prevNote.isSustainNote)
 			{
-				switch (prevNote.noteData)
+				if (!isRing)
 				{
-					case 0:
-						prevNote.animation.play('purplehold');
-					case 1:
-						prevNote.animation.play('bluehold');
-					case 2:
-						prevNote.animation.play('greenhold');
-					case 3:
-						prevNote.animation.play('redhold');
+					switch (prevNote.noteData)
+					{
+						case 0:
+							prevNote.animation.play('purplehold');
+						case 1:
+							prevNote.animation.play('bluehold');
+						case 3:
+							prevNote.animation.play('redhold');
+						case 2:
+							prevNote.animation.play('greenhold');
+					}
+				}
+				else
+				{
+					switch (prevNote.noteData)
+					{
+						case 0:
+							prevNote.animation.play('purplehold');
+						case 1:
+							prevNote.animation.play('bluehold');
+						case 3:
+							prevNote.animation.play('greenhold');
+						case 2:
+							prevNote.animation.play('goldhold');
+						case 4:
+							prevNote.animation.play('redhold');
+					}
 				}
 
 

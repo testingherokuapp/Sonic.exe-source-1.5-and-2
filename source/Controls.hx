@@ -32,6 +32,10 @@ enum abstract Action(String) to String from String
 	var PAUSE = "pause";
 	var RESET = "reset";
 	var CHEAT = "cheat";
+
+	var SPACEB = 'space';
+	var SPACE_P = 'space-press';
+	var SPACE_R = 'space-release';
 }
 #else
 @:enum
@@ -54,6 +58,10 @@ abstract Action(String) to String from String
 	var PAUSE = "pause";
 	var RESET = "reset";
 	var CHEAT = "cheat";
+
+	var SPACEB = 'space';
+	var SPACE_P = 'space-press';
+	var SPACE_R = 'space-release';
 }
 #end
 
@@ -79,6 +87,7 @@ enum Control
 	BACK;
 	PAUSE;
 	CHEAT;
+	SPACEB;
 }
 
 enum KeyboardScheme
@@ -112,6 +121,10 @@ class Controls extends FlxActionSet
 	var _pause = new FlxActionDigital(Action.PAUSE);
 	var _reset = new FlxActionDigital(Action.RESET);
 	var _cheat = new FlxActionDigital(Action.CHEAT);
+
+	var _space = new FlxActionDigital(Action.SPACEB);
+	var _spaceP = new FlxActionDigital(Action.SPACE_P);
+	var _spaceR = new FlxActionDigital(Action.SPACE_R);
 
 	#if (haxe >= "4.0.0")
 	var byName:Map<String, FlxActionDigital> = [];
@@ -207,6 +220,21 @@ class Controls extends FlxActionSet
 	inline function get_CHEAT()
 		return _cheat.check();
 
+	public var SPACEB(get, never):Bool;
+
+	inline function get_SPACEB()
+		return _space.check();
+
+	public var SPACE_P(get, never):Bool;
+
+	inline function get_SPACE_P()
+		return _spaceP.check();
+
+	public var SPACE_R(get, never):Bool;
+
+	inline function get_SPACE_R()
+		return _spaceR.check();
+
 	#if (haxe >= "4.0.0")
 	public function new(name, scheme = None)
 	{
@@ -229,6 +257,10 @@ class Controls extends FlxActionSet
 		add(_pause);
 		add(_reset);
 		add(_cheat);
+
+		add(_space);
+		add(_spaceP);
+		add(_spaceR);
 
 		for (action in digitalActions)
 			byName[action.name] = action;
@@ -257,6 +289,10 @@ class Controls extends FlxActionSet
 		add(_pause);
 		add(_reset);
 		add(_cheat);
+
+		add(_space);
+		add(_spaceP);
+		add(_spaceR);
 
 		for (action in digitalActions)
 			byName[action.name] = action;
@@ -311,6 +347,8 @@ class Controls extends FlxActionSet
 			case PAUSE: _pause;
 			case RESET: _reset;
 			case CHEAT: _cheat;
+
+			case SPACEB: _space;
 		}
 	}
 
@@ -356,6 +394,11 @@ class Controls extends FlxActionSet
 				func(_reset, JUST_PRESSED);
 			case CHEAT:
 				func(_cheat, JUST_PRESSED);
+
+			case SPACEB:
+				func(_space, PRESSED);
+				func(_spaceP, JUST_PRESSED);
+				func(_spaceR, JUST_RELEASED);
 		}
 	}
 
@@ -585,6 +628,7 @@ class Controls extends FlxActionSet
 		buttons.set(Control.ACCEPT,[FlxGamepadInputID.A]);
 		buttons.set(Control.BACK,[FlxGamepadInputID.B]);
 		buttons.set(Control.PAUSE,[FlxGamepadInputID.START]);
+		buttons.set(Control.SPACEB,[FlxGamepadInputID.fromString(FlxG.save.data.gpmiddleBind)]);
 
 		addGamepad(0,buttons);
 
@@ -596,6 +640,7 @@ class Controls extends FlxActionSet
 		inline bindKeys(Control.BACK, [BACKSPACE, ESCAPE]);
 		inline bindKeys(Control.PAUSE, [P, ENTER, ESCAPE]);
 		inline bindKeys(Control.RESET, [FlxKey.fromString(FlxG.save.data.killBind)]);
+		inline bindKeys(Control.SPACEB, [FlxKey.fromString(FlxG.save.data.middleBind), FlxKey.SPACE]);
 	}
 
 	function removeKeyboard()

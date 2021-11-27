@@ -12,38 +12,40 @@ class HealthIcon extends FlxSprite
 	public function new(char:String = 'bf', isPlayer:Bool = false)
 	{
 		super();
-		
+
 		loadGraphic(Paths.image('iconGrid'), true, 150, 150);
 
-		antialiasing = true;
+		// antialiasing = true;
 		animation.add('bf', [0, 1], 0, false, isPlayer);
-		animation.add('bf-christmas', [0, 1], 0, false, isPlayer);
-		animation.add('bf-pixel', [21, 21], 0, false, isPlayer);
-		animation.add('spooky', [2, 3], 0, false, isPlayer);
-		animation.add('pico', [4, 5], 0, false, isPlayer);
-		animation.add('mom', [6, 7], 0, false, isPlayer);
-		animation.add('mom-car', [6, 7], 0, false, isPlayer);
-		animation.add('tankman', [8, 9], 0, false, isPlayer);
-		animation.add('face', [10, 11], 0, false, isPlayer);
-		animation.add('dad', [12, 13], 0, false, isPlayer);
-		animation.add('senpai', [22, 22], 0, false, isPlayer);
-		animation.add('senpai-angry', [22, 22], 0, false, isPlayer);
-		animation.add('spirit', [23, 23], 0, false, isPlayer);
-		animation.add('bf-old', [14, 15], 0, false, isPlayer);
+		animation.add('bf-flipped-for-cam', [0, 1], 0, false, isPlayer);
+		animation.add('bf-blue', [0, 1], 0, false, isPlayer);
+		animation.add('bf-super', [0, 1], 0, false, isPlayer);
 		animation.add('gf', [16], 0, false, isPlayer);
-		animation.add('gf-christmas', [16], 0, false, isPlayer);
-		animation.add('gf-pixel', [16], 0, false, isPlayer);
-		animation.add('parents-christmas', [17, 18], 0, false, isPlayer);
-		animation.add('monster', [19, 20], 0, false, isPlayer);
-		animation.add('monster-christmas', [19, 20], 0, false, isPlayer);
 		animation.add('sonic', [25, 24], 0, false, isPlayer);
+		animation.add('sonic.exe', [46, 47], 0, false, isPlayer);
+		animation.add('sonic.exe alt', [42, 43], 0, false, isPlayer);
+		animation.add('beast', [54, 55], 0, false, isPlayer);
+		animation.add('beast-cam-fix', [54, 55], 0, false, isPlayer);
+		animation.add('TDoll', [33], 0, false, isPlayer);
+		animation.add('bf-SS', [32], 0, false, isPlayer);
 		animation.add('sunky', [30, 31], 0, false, isPlayer);
-		animation.add('sonicfun', [26, 26], 0, false, isPlayer);
+		animation.add('sonicfun', [26, 27], 0, false, isPlayer);
 		animation.add('duo', [26, 26], 0, false, isPlayer);
 		animation.add('sonicLordX', [28, 29], 0, false, isPlayer);
+		animation.add('faker', [34, 35], 0, false, isPlayer);
+		animation.add('exe', [36, 37], 0, false, isPlayer);
+		animation.add('sanic', [38, 39], 0, false, isPlayer);
+		animation.add('tails', [48, 49], 0, false, isPlayer);
+		animation.add('knucks', [50, 51], 0, false, isPlayer);
+		animation.add('eggdickface', [52, 53], 0, false, isPlayer);
+		animation.add('fleetway', [40, 41], 0, false, isPlayer);
+		animation.add('bf-perspective', [0, 1], 0, false, isPlayer);
+		animation.add('bf-perspective-flipped', [0, 1], 0, false, isPlayer);
+		animation.add('bf-pixel', [44, 45], 0, false, isPlayer);
+		animation.add('bf-flipped', [0, 1], 0, false, isPlayer);
 		animation.play(char);
 
-		switch(char)
+		switch (char)
 		{
 			case 'bf-pixel' | 'senpai' | 'senpai-angry' | 'spirit' | 'gf-pixel':
 				antialiasing = false;
